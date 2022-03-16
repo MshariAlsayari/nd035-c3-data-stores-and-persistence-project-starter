@@ -1,6 +1,8 @@
-package com.udacity.jdnd.course3.critter.data;
+package com.udacity.jdnd.course3.critter.schedule;
 
 
+import com.udacity.jdnd.course3.critter.user.EmployeeEntity;
+import com.udacity.jdnd.course3.critter.pet.PetEntity;
 import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +22,7 @@ public class ScheduleEntity {
 
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
 
     @Column
     private LocalDateTime date;

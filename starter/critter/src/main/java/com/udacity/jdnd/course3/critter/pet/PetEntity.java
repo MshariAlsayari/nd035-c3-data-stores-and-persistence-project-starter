@@ -1,7 +1,8 @@
-package com.udacity.jdnd.course3.critter.data;
+package com.udacity.jdnd.course3.critter.pet;
 
 
-import com.udacity.jdnd.course3.critter.pet.PetType;
+import com.udacity.jdnd.course3.critter.user.CustomerEntity;
+import com.udacity.jdnd.course3.critter.schedule.ScheduleEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +18,7 @@ import java.time.LocalDate;
 public class PetEntity {
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
 
     @Column
     @Enumerated(EnumType.ORDINAL)

@@ -1,6 +1,7 @@
-package com.udacity.jdnd.course3.critter.data;
+package com.udacity.jdnd.course3.critter.user;
 
 
+import com.udacity.jdnd.course3.critter.schedule.ScheduleEntity;
 import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,7 @@ public class EmployeeEntity {
 
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
 
     @Column
     @Nationalized

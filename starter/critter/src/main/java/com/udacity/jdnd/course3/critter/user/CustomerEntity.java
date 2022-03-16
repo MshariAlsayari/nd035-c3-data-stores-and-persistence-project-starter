@@ -1,6 +1,7 @@
-package com.udacity.jdnd.course3.critter.data;
+package com.udacity.jdnd.course3.critter.user;
 
 
+import com.udacity.jdnd.course3.critter.pet.PetEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,7 +19,7 @@ public class CustomerEntity {
 
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
 
     @Column
     @Nationalized
