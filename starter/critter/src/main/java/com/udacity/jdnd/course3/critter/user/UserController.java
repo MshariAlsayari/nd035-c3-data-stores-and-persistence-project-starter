@@ -1,5 +1,6 @@
 package com.udacity.jdnd.course3.critter.user;
 
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,6 +41,11 @@ public class UserController {
         return userService.saveEmployee(employeeDTO);
     }
 
+    @GetMapping("/employee")
+    public List<EmployeeDTO> getAllEmployees(){
+        return userService.getAllEmployees();
+    }
+
     @PostMapping("/employee/{employeeId}")
     public EmployeeDTO getEmployee(@PathVariable long employeeId) {
         throw new UnsupportedOperationException();
@@ -47,7 +53,7 @@ public class UserController {
 
     @PutMapping("/employee/{employeeId}")
     public void setAvailability(@RequestBody Set<DayOfWeek> daysAvailable, @PathVariable long employeeId) {
-        throw new UnsupportedOperationException();
+       userService.setAvailability(Lists.newArrayList(daysAvailable), employeeId);
     }
 
     @GetMapping("/employee/availability")
