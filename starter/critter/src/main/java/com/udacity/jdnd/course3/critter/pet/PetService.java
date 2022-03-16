@@ -56,10 +56,15 @@ public class PetService {
         List<PetDTO> returnedValue = new ArrayList<>();
         List<PetEntity> entities = ImmutableList.copyOf(petRepo.findAll());
 
+
         ModelMapper modelMapper = new ModelMapper();
-        if (!CollectionUtils.isEmpty(entities))
-            returnedValue = modelMapper.map(entities, new TypeToken<List<PetDTO>>() {
-            }.getType());
+        for (PetEntity entity : entities) {
+            PetDTO dto = new PetDTO();
+            modelMapper.map(entity, dto);
+            dto.setOwnerId(entity.getCustomer().getId());
+            returnedValue.add(dto);
+        }
+
 
         return returnedValue;
     }
