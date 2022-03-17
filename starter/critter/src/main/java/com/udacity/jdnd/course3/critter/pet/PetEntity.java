@@ -37,5 +37,5 @@ public class PetEntity {
     private CustomerEntity customer;
 
     @ManyToOne
-    private ScheduleEntity schedule;
+    private ScheduleEntity schedulePet;
 }

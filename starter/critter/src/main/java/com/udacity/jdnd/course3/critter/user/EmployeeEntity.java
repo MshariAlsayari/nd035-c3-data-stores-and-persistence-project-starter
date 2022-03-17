@@ -37,7 +37,7 @@ public class EmployeeEntity {
     private List<DayOfWeek> days = new ArrayList<>();
 
     @ManyToOne
-    private ScheduleEntity schedule;
+    private ScheduleEntity scheduleEmployee;
 
 
 }
