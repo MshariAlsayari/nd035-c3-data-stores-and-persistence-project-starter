@@ -30,8 +30,16 @@ public class PetService {
             PetEntity entity = new PetEntity();
             BeanUtils.copyProperties(petDTO, entity);
             entity.setCustomer(customer.get());
-            PetEntity entity1 = petRepo.save(entity);
-            BeanUtils.copyProperties(entity1, petDTO);
+            PetEntity savedPet = petRepo.save(entity);
+            if (customer.get().getPetEntityList() == null){
+                List<PetEntity> petEntityList = new ArrayList<>();
+                petEntityList.add(savedPet);
+                customer.get().setPetEntityList(petEntityList);
+            }else {
+                customer.get().getPetEntityList().add(savedPet);
+            }
+
+            BeanUtils.copyProperties(savedPet, petDTO);
             return petDTO;
         }
 
@@ -43,6 +51,7 @@ public class PetService {
        if (pet.isPresent()){
            PetDTO returnedValue = new PetDTO();
            BeanUtils.copyProperties(pet.get(), returnedValue);
+           returnedValue.setOwnerId(pet.get().getCustomer().getId());
            return returnedValue;
        }else {
            return null;

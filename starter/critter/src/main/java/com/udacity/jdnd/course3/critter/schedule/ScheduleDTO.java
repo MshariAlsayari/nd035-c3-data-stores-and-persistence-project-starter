@@ -3,6 +3,7 @@ package com.udacity.jdnd.course3.critter.schedule;
 import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -15,7 +16,7 @@ public class ScheduleDTO {
     private List<Long> employeeIds;
     private List<Long> petIds;
     private LocalDate date;
-    private Set<EmployeeSkill> skills;
+    private Set<EmployeeSkill> skills= new HashSet<>();
 
     public long getId(){
         return id;

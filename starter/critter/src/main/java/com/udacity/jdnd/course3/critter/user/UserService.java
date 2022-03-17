@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class UserService {
@@ -40,9 +41,16 @@ public class UserService {
 
     public CustomerDTO getOwnerByPetId(long petId) {
         CustomerDTO returnedValue = new CustomerDTO();
-        CustomerEntity entity = customerRepo.getOwnerByPetId(petId);
-        BeanUtils.copyProperties(entity, returnedValue);
-        returnedValue.setPetIds(entity.getPetEntityList().stream().map(PetEntity::getId).collect(Collectors.toList()));
+        List<CustomerEntity> entities = ImmutableList.copyOf(customerRepo.findAll());
+
+        for (CustomerEntity entity : entities) {
+            Optional<PetEntity> pet = entity.getPetEntityList().stream().filter(petEntity -> petEntity.getId() == petId).findFirst();
+            if (pet.isPresent()){
+                BeanUtils.copyProperties(entity, returnedValue);
+                returnedValue.setPetIds(entity.getPetEntityList().stream().map(PetEntity::getId).collect(Collectors.toList()));
+            }
+        }
+
         return returnedValue;
     }
 
@@ -56,7 +64,7 @@ public class UserService {
             CustomerDTO dto = new CustomerDTO();
             modelMapper.map(entity, dto);
             if (entity.getPetEntityList() != null)
-            dto.setPetIds(entity.getPetEntityList().stream().map(PetEntity::getId).collect(Collectors.toList()));
+                dto.setPetIds(entity.getPetEntityList().stream().map(PetEntity::getId).collect(Collectors.toList()));
             returnedValue.add(dto);
         }
 
@@ -112,7 +120,7 @@ public class UserService {
 
         entities = entities.stream()
                 .filter(e -> e.getSkills().stream()
-                .anyMatch(employeeSkill -> employeeDTO.getSkills().contains(employeeSkill)))
+                        .anyMatch(employeeSkill -> employeeDTO.getSkills().contains(employeeSkill)))
                 .filter(e -> e.getDays().contains(employeeDTO.getDayPfWeek())).collect(Collectors.toList());
 
 
