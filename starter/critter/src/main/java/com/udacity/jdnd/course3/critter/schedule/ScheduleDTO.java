@@ -15,7 +15,7 @@ public class ScheduleDTO {
     private List<Long> employeeIds;
     private List<Long> petIds;
     private LocalDate date;
-    private Set<EmployeeSkill> activities;
+    private Set<EmployeeSkill> skills;
 
     public long getId(){
         return id;
@@ -49,11 +49,11 @@ public class ScheduleDTO {
         this.date = date;
     }
 
-    public Set<EmployeeSkill> getActivities() {
-        return activities;
+    public Set<EmployeeSkill> getSkills() {
+        return skills;
     }
 
-    public void setActivities(Set<EmployeeSkill> activities) {
-        this.activities = activities;
+    public void setSkills(Set<EmployeeSkill> skills) {
+        this.skills = skills;
     }
 }

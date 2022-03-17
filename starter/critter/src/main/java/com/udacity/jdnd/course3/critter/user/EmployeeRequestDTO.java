@@ -1,5 +1,6 @@
 package com.udacity.jdnd.course3.critter.user;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -25,5 +26,9 @@ public class EmployeeRequestDTO {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public DayOfWeek getDayPfWeek(){
+        return date.getDayOfWeek();
     }
 }
