@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.DayOfWeek;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -99,7 +96,9 @@ public class UserService {
         Optional<EmployeeEntity> entity = employeeRepo.findById(employeeId);
         if (entity.isPresent()) {
             EmployeeDTO returnedValue = new EmployeeDTO();
-            BeanUtils.copyProperties(entity, returnedValue);
+            BeanUtils.copyProperties(entity.get(), returnedValue);
+            returnedValue.setSkills(new HashSet<>(entity.get().getSkills()));
+            returnedValue.setDays(new HashSet<>(entity.get().getDays()));
             return returnedValue;
         } else {
             return null;
