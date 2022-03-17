@@ -55,6 +55,7 @@ public class UserService {
         for (CustomerEntity entity : entities) {
             CustomerDTO dto = new CustomerDTO();
             modelMapper.map(entity, dto);
+            if (entity.getPetEntityList() != null)
             dto.setPetIds(entity.getPetEntityList().stream().map(PetEntity::getId).collect(Collectors.toList()));
             returnedValue.add(dto);
         }
