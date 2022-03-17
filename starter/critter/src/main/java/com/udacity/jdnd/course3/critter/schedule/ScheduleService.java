@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class ScheduleService {
@@ -47,15 +48,8 @@ public class ScheduleService {
             savedEntity.setSkills(Lists.newArrayList(scheduleDTO.getSkills()));
             savedEntity.setPetEntityList(pets);
             savedEntity.setEmployeeEntityList(employees);
-
-            ScheduleEntity entity = scheduleRepo.save(savedEntity);
-
-            ScheduleDTO returnedValue = new ScheduleDTO();
-            returnedValue.setId(entity.getId());
-            returnedValue.setDate(entity.getDate());
-            returnedValue.setSkills(new HashSet<>(entity.getSkills()));
-            returnedValue.setEmployeeIds(entity.getEmployeeEntityList().stream().map(EmployeeEntity::getId).collect(Collectors.toList()));
-            returnedValue.setPetIds(entity.getPetEntityList().stream().map(PetEntity::getId).collect(Collectors.toList()));
+            scheduleRepo.save(savedEntity);
+            ScheduleDTO returnedValue = convertScheduleEntityToScheduleDTO(savedEntity);
             return  returnedValue;
         }else {
             return null;
@@ -68,15 +62,78 @@ public class ScheduleService {
         List<ScheduleEntity> entities = ImmutableList.copyOf(scheduleRepo.findAll());
 
         for (ScheduleEntity entity : entities) {
-            ScheduleDTO dto = new ScheduleDTO();
-            dto.setId(entity.getId());
-            dto.setDate(entity.getDate());
-            dto.setSkills(new HashSet<>(entity.getSkills()));
-            dto.setEmployeeIds(entity.getEmployeeEntityList().stream().map(EmployeeEntity::getId).collect(Collectors.toList()));
-            dto.setPetIds(entity.getPetEntityList().stream().map(PetEntity::getId).collect(Collectors.toList()));
+            ScheduleDTO dto = convertScheduleEntityToScheduleDTO(entity);
             returnedValue.add(dto);
         }
         return returnedValue;
+    }
+
+    public List<ScheduleDTO> getScheduleByPet(long petId){
+        List<ScheduleDTO> returnedValue = new ArrayList<>();
+        List<ScheduleEntity> entities = ImmutableList.copyOf(scheduleRepo.findAll());
+        List<ScheduleEntity> filteredList = new ArrayList<>();
+
+        for (ScheduleEntity scheduleEntity : entities) {
+            for (PetEntity petEntity : scheduleEntity.getPetEntityList()) {
+                if (petEntity.getId() == petId)
+                filteredList.add(scheduleEntity);
+            }
+        }
+
+        for (ScheduleEntity entity : filteredList) {
+            ScheduleDTO dto = convertScheduleEntityToScheduleDTO(entity);
+            returnedValue.add(dto);
+        }
+        return returnedValue;
+    }
+
+    public List<ScheduleDTO> getScheduleByEmployee(long employeeId){
+        List<ScheduleDTO> returnedValue = new ArrayList<>();
+        List<ScheduleEntity> entities = ImmutableList.copyOf(scheduleRepo.findAll());
+        List<ScheduleEntity> filteredList = new ArrayList<>();
+
+        for (ScheduleEntity scheduleEntity : entities) {
+            for (EmployeeEntity employeeEntity : scheduleEntity.getEmployeeEntityList()) {
+                if (employeeEntity.getId() == employeeId)
+                    filteredList.add(scheduleEntity);
+            }
+        }
+
+        for (ScheduleEntity entity : filteredList) {
+            ScheduleDTO dto = convertScheduleEntityToScheduleDTO(entity);
+            returnedValue.add(dto);
+        }
+        return returnedValue;
+    }
+
+    public List<ScheduleDTO> getScheduleByCustomer(long customerId){
+        List<ScheduleDTO> returnedValue = new ArrayList<>();
+        List<ScheduleEntity> entities = ImmutableList.copyOf(scheduleRepo.findAll());
+        List<ScheduleEntity> filteredList = new ArrayList<>();
+
+        for (ScheduleEntity scheduleEntity : entities) {
+            for (PetEntity petEntity : scheduleEntity.getPetEntityList()) {
+                if (petEntity.getCustomer().getId() == customerId)
+                    filteredList.add(scheduleEntity);
+            }
+        }
+
+        for (ScheduleEntity entity : filteredList) {
+            ScheduleDTO dto = convertScheduleEntityToScheduleDTO(entity);
+            returnedValue.add(dto);
+        }
+        return returnedValue;
+    }
+
+    private ScheduleDTO convertScheduleEntityToScheduleDTO(ScheduleEntity entity){
+        ScheduleDTO dto = new ScheduleDTO();
+        dto.setId(entity.getId());
+        dto.setDate(entity.getDate());
+        dto.setSkills(new HashSet<>(entity.getSkills()));
+        dto.setEmployeeIds(entity.getEmployeeEntityList().stream().map(EmployeeEntity::getId).collect(Collectors.toList()));
+        dto.setPetIds(entity.getPetEntityList().stream().map(PetEntity::getId).collect(Collectors.toList()));
+        return dto;
+
     }
 
 

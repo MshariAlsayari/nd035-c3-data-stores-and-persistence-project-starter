@@ -31,6 +31,6 @@ public class CustomerEntity {
     @Column
     private String notes;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<PetEntity> petEntityList;
 }
